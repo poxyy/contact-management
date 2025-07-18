@@ -1,0 +1,67 @@
+const API = import.meta.env.VITE_API_PATH;
+
+export const addressCreate = async (token, id, { street, city, province, country, postal_code }) => {
+    return await fetch(`${API}/contacts/${id}/addresses`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            street,
+            city,
+            province,
+            country,
+            postal_code
+        })
+    })
+}
+
+export const addressList = async (token, id) => {
+    return await fetch(`${API}/contacts/${id}/addresses`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+export const addressDetail = async (token, id, addressId) => {
+    return await fetch(`${API}/contacts/${id}/addresses/${addressId}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+export const addressUpdate = async (token, id, addressId, { street, city, province, country, postal_code }) => {
+    return await fetch(`${API}/contacts/${id}/addresses/${addressId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            street,
+            city,
+            province,
+            country,
+            postal_code
+        })
+    })
+}
+
+export const addressDelete = async (token, id, addressId) => {
+    return await fetch(`${API}/contacts/${id}/addresses/${addressId}`, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}

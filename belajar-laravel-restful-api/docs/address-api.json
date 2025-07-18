@@ -1,0 +1,757 @@
+{
+    "openapi": "3.1.1",
+    "info": {
+        "title": "Address API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost"
+        }
+    ],
+    "paths": {
+        "/api/contacts/{idContact}/addresses": {
+            "get": {
+                "summary": "Get list of addresses",
+                "description": "Returns a list of addresses for the specified contact.",
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the contact"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of addresses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "street": {
+                                                        "type": "string"
+                                                    },
+                                                    "city": {
+                                                        "type": "string"
+                                                    },
+                                                    "province": {
+                                                        "type": "string"
+                                                    },
+                                                    "country": {
+                                                        "type": "string"
+                                                    },
+                                                    "postal_code": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "addressList": {
+                                        "value": {
+                                            "data": [
+                                                {
+                                                    "id": 1,
+                                                    "street": "Jl. Mawar No. 123",
+                                                    "city": "Jakarta",
+                                                    "province": "DKI Jakarta",
+                                                    "country": "Indonesia",
+                                                    "postal_code": "12345"
+                                                },
+                                                {
+                                                    "id": 2,
+                                                    "street": "Jl. Melati No. 456",
+                                                    "city": "Bandung",
+                                                    "province": "Jawa Barat",
+                                                    "country": "Indonesia",
+                                                    "postal_code": "67890"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - not authenticated",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "unauthorized": {
+                                        "value": {
+                                            "errors": {
+                                                "authorization": [
+                                                    "Authentication required"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contact not found",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "notFound": {
+                                        "value": {
+                                            "errors": {
+                                                "contact": [
+                                                    "Contact not found"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "serverError": {
+                                        "value": {
+                                            "errors": {
+                                                "server": [
+                                                    "An unexpected error occurred"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create new address",
+                "description": "Creates a new address for a specific contact.",
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the contact"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Address information to be created",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "country"
+                                ],
+                                "properties": {
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "province": {
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "type": "string"
+                                    },
+                                    "postal_code": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Address successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "street": {
+                                                    "type": "string"
+                                                },
+                                                "city": {
+                                                    "type": "string"
+                                                },
+                                                "province": {
+                                                    "type": "string"
+                                                },
+                                                "country": {
+                                                    "type": "string"
+                                                },
+                                                "postal_code": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "createSuccess": {
+                                        "value": {
+                                            "data": {
+                                                "id": 101,
+                                                "street": "Jl. Merdeka",
+                                                "city": "Bandung",
+                                                "province": "Jawa Barat",
+                                                "country": "Indonesia",
+                                                "postal_code": "40123"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationError": {
+                                        "value": {
+                                            "errors": {
+                                                "street": [
+                                                    "Street is required"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - token missing or invalid",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "unauthorized": {
+                                        "value": {
+                                            "errors": {
+                                                "authorization": [
+                                                    "Invalid or expired token"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contact not found",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "notFound": {
+                                        "value": {
+                                            "errors": {
+                                                "contact": [
+                                                    "Contact with specified ID not found"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "serverError": {
+                                        "value": {
+                                            "errors": {
+                                                "server": [
+                                                    "Unexpected error while creating address"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/{idContact}/addresses/{idAddress}": {
+            "delete": {
+                "summary": "Delete address",
+                "description": "Deletes an address by its ID for the specified contact.",
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the contact"
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the address to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted address",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success": {
+                                        "value": {
+                                            "data": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - not authenticated",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "unauthorized": {
+                                        "value": {
+                                            "errors": {
+                                                "authorization": [
+                                                    "Authentication required"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Address not found",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "notFound": {
+                                        "value": {
+                                            "errors": {
+                                                "address": [
+                                                    "Address not found"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "serverError": {
+                                        "value": {
+                                            "errors": {
+                                                "server": [
+                                                    "Unexpected error occurred while deleting address"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get address",
+                "description": "Retrieve a specific address by its ID for a given contact.",
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the contact"
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the address"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Address retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "street": {
+                                                    "type": "string"
+                                                },
+                                                "city": {
+                                                    "type": "string"
+                                                },
+                                                "province": {
+                                                    "type": "string"
+                                                },
+                                                "country": {
+                                                    "type": "string"
+                                                },
+                                                "postal_code": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "successExample": {
+                                        "value": {
+                                            "data": {
+                                                "id": 12,
+                                                "street": "Jl. Kenangan",
+                                                "city": "Surabaya",
+                                                "province": "Jawa Timur",
+                                                "country": "Indonesia",
+                                                "postal_code": "60234"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - invalid or missing token",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "unauthorized": {
+                                        "value": {
+                                            "errors": {
+                                                "authorization": [
+                                                    "Invalid or expired token"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Address not found",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "notFound": {
+                                        "value": {
+                                            "errors": {
+                                                "address": [
+                                                    "Address with specified ID not found"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "serverError": {
+                                        "value": {
+                                            "errors": {
+                                                "server": [
+                                                    "Unexpected error while retrieving address"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update existing address",
+                "description": "Update an existing address for a contact.",
+                "security": [
+                    {
+                        "cookieAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "idContact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the contact"
+                    },
+                    {
+                        "name": "idAddress",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "ID of the address to update"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Address object with updated fields",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "province": {
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "type": "string"
+                                    },
+                                    "postal_code": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "updateAddress": {
+                                    "value": {
+                                        "street": "Jl. Baru No. 99",
+                                        "city": "Surabaya",
+                                        "province": "Jawa Timur",
+                                        "country": "Indonesia",
+                                        "postal_code": "60234"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated address",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "street": {
+                                                    "type": "string"
+                                                },
+                                                "city": {
+                                                    "type": "string"
+                                                },
+                                                "province": {
+                                                    "type": "string"
+                                                },
+                                                "country": {
+                                                    "type": "string"
+                                                },
+                                                "postal_code": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "successUpdate": {
+                                        "value": {
+                                            "data": {
+                                                "id": 10,
+                                                "street": "Jl. Baru No. 99",
+                                                "city": "Surabaya",
+                                                "province": "Jawa Timur",
+                                                "country": "Indonesia",
+                                                "postal_code": "60234"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "validationError": {
+                                        "value": {
+                                            "errors": {
+                                                "street": [
+                                                    "Street must not be blank"
+                                                ],
+                                                "postal_code": [
+                                                    "Postal code invalid format"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "unauthorized": {
+                                        "value": {
+                                            "errors": {
+                                                "authorization": [
+                                                    "Invalid or expired token"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Address or Contact not found",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "notFound": {
+                                        "value": {
+                                            "errors": {
+                                                "address": [
+                                                    "Address not found"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "cookieAuth": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "XSRF-TOKEN"
+            }
+        }
+    }
+}
